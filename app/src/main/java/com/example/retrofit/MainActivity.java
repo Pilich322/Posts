@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerView);
+        Toast.makeText(MainActivity.this, "Нажми на любой пост, чтобы увидеть инф-цию о пользователе что его написал", Toast.LENGTH_SHORT).show();
         getPosts();
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, RecyclerView.VERTICAL);
         Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.border_item_recyclerview, null);
@@ -46,9 +47,8 @@ public class MainActivity extends AppCompatActivity {
         }
         recyclerView.addItemDecoration(dividerItemDecoration);
         PostAdapter.OnUserClickListener onUserClickListener = (post, position) -> {
-            Toast.makeText(MainActivity.this, "CHECK", Toast.LENGTH_SHORT).show();
+
             Post selectedPost = postList.get(position);
-            InfoUserActivity infoUserActivity = new InfoUserActivity(post);
             Intent intent = new Intent(MainActivity.this, InfoUserActivity.class);
             intent.putExtra("userId", selectedPost.getUserId());
             startActivity(intent);

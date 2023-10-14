@@ -2,15 +2,13 @@ package com.example.retrofit.data;
 
 public class Company {
     private String name;
-    private String catchPhase;
+    private String catchPhrase;
     private String bs;
-    private Geo geo;
 
-    public Company(String name, String catchPhase, String bs, Geo geo) {
+    public Company(String name, String catchPhrase, String bs) {
         this.name = name;
-        this.catchPhase = catchPhase;
+        this.catchPhrase = catchPhrase;
         this.bs = bs;
-        this.geo = geo;
     }
     public String getName() {
         return name;
@@ -20,12 +18,12 @@ public class Company {
         this.name = name;
     }
 
-    public String getCatchPhase() {
-        return catchPhase;
+    public String getCatchPhrase() {
+        return catchPhrase;
     }
 
-    public void setCatchPhase(String catchPhase) {
-        this.catchPhase = catchPhase;
+    public void setCatchPhrase(String catchPhrase) {
+        this.catchPhrase = catchPhrase;
     }
 
     public String getBs() {
@@ -35,14 +33,4 @@ public class Company {
     public void setBs(String bs) {
         this.bs = bs;
     }
-
-    public Geo getGeo() {
-        return geo;
-    }
-
-    public void setGeo(Geo geo) {
-        this.geo = geo;
-    }
-
-
 }

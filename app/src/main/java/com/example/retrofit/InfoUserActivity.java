@@ -19,11 +19,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class InfoUserActivity extends AppCompatActivity {
-    public InfoUserActivity(Post post){
-        this.post = post;
-    }
     int userID = 0;
-    Post post;
     TextView txtOutput;
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     @Override
@@ -33,48 +29,42 @@ public class InfoUserActivity extends AppCompatActivity {
         txtOutput = findViewById(R.id.TextViewUser);
         Intent intent = getIntent();
         userID = intent.getIntExtra("userId",0);
-        Log.d("LOH", userID + "");
         getUser();
-
     }
 
     public void getUser(){
-        Call<List<Users>> listUsers = apiInterface.getUser(userID);
-        listUsers.enqueue(new Callback<List<Users>>() {
+        Call<Users> listUsers = apiInterface.getUser(userID);
+        listUsers.enqueue(new Callback<Users>() {
             @Override
-            public void onResponse(Call<List<Users>> call, Response<List<Users>> response) {
-                if (!response.isSuccessful()){
-                    Log.e("CODE", response.code() + "");
-                    return;
+            public void onResponse(Call<Users> call, Response<Users> response) {
+                if (response.isSuccessful()) {
+                    Users user = (Users) response.body();
+                    txtOutput.append("ID user: " + user.getId() + "\n");
+                    txtOutput.append("Name: " + user.getName()+ "\n");
+                    txtOutput.append("UserName: " + user.getUsername()+ "\n");
+                    txtOutput.append("Address: " + "\n");
+                    txtOutput.append("\tStreet: " + user.getAddress().getStreet() + "\n");
+                    txtOutput.append("\tSuite: " + user.getAddress().getSuite() + "\n");
+                    txtOutput.append("\tCity: " + user.getAddress().getCity() + "\n");
+                    txtOutput.append("\tZipCode: " + user.getAddress().getZipcode() + "\n");
+                    txtOutput.append("\tGeo: " + "\n");
+                    txtOutput.append("\t\tLat: " + user.getAddress().getGeo().getLat() + "\n");
+                    txtOutput.append("\t\tLng: " + user.getAddress().getGeo().getLng() + "\n");
+                    txtOutput.append("Phone: " + user.getPhone() + "\n");
+                    txtOutput.append("Website: " + user.getWebsite() + "\n");
+                    txtOutput.append("\tCompany:" + "\n");
+                    txtOutput.append("\t\tName company: " + user.getCompany().getName()+ "\n");
+                    txtOutput.append("\t\tCatchPhrase company: " + user.getCompany().getCatchPhrase() + "\n");
+                    txtOutput.append("\t\tBS company: " + user.getCompany().getBs());
                 }
-                List<Users> users = response.body();
-                for (Users user : users)
-                txtOutput.append("id: " + user.getId() + "\n");
-//                txtOutput.append("name: " + user. + "\n");
-//                txtOutput.append("username: " + user.getUsername() + "\n");
-//                txtOutput.append("email: " + user.getEmail() + "\n");
-//                txtOutput.append("address: " + user.getAddress() + "\n");
-//                txtOutput.append("\t" + "street: " + user.getAddress().getStreet() + "\n");
-//                txtOutput.append("\t" + "suite: " + user.getAddress().getSuite() + "\n");
-//                txtOutput.append("\t" + "city: " + user.getAddress().getCity() + "\n");
-//                txtOutput.append("\t" + "city: " + user.getAddress().getZipcode() + "\n");
-//                txtOutput.append("\t" + "geo: " + "\n");
-//                txtOutput.append("\t\tlat: " + user.getAddress().getGeo().getLat() + "\n");
-//                txtOutput.append("\t\tlng: " + user.getAddress().getGeo().getLng() + "\n");
-//                txtOutput.append("phone" + user.getPhone() + "\n");
-//                txtOutput.append("website" + user.getWebsite() + "\n");
-//                txtOutput.append("\t"+ "company" + "\n");
-//                txtOutput.append("\t\tname: " + user.getCompany().getName() + "\n");
-//                txtOutput.append("\t\tcatchPhrase: " + user.getCompany().getCatchPhase() + "\n");
-//                txtOutput.append("\t\tbs: " + user.getCompany().getBs() + "\n");
-//
             }
 
             @Override
-            public void onFailure(Call<List<Users>> call, Throwable t) {
-                Log.w("Code", t.getLocalizedMessage()+ "");
+            public void onFailure(Call<Users> call, Throwable t) {
+                Log.e("CODE", t.getMessage() + "");
             }
         });
+
     }
 
 }
