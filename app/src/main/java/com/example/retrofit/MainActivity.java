@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     List<Post> postList = new ArrayList<>();
     PostAdapter postAdapter;
     RecyclerView recyclerView;
-    PostAdapter.OnUserClickListener onUserClickListener;
+
     ApiInterface apiInterface = ApiClient.getRetrofit().create(ApiInterface.class);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +45,15 @@ public class MainActivity extends AppCompatActivity {
             dividerItemDecoration.setDrawable(drawable);
         }
         recyclerView.addItemDecoration(dividerItemDecoration);
-        onUserClickListener = (post, position) -> {
+        PostAdapter.OnUserClickListener onUserClickListener = (post, position) -> {
             Toast.makeText(MainActivity.this, "CHECK", Toast.LENGTH_SHORT).show();
             Post selectedPost = postList.get(position);
+            InfoUserActivity infoUserActivity = new InfoUserActivity(post);
             Intent intent = new Intent(MainActivity.this, InfoUserActivity.class);
             intent.putExtra("userId", selectedPost.getUserId());
             startActivity(intent);
         };
+        postAdapter = new PostAdapter(getApplicationContext(), postList,onUserClickListener);
     }
 
     public void getPosts(){
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 postList = response.body();
-                postAdapter = new PostAdapter(getApplicationContext(), postList,onUserClickListener);
+                postAdapter.changeData(postList);
                 recyclerView.setAdapter(postAdapter);
             }
             @Override

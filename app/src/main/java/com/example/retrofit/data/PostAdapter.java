@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,16 +49,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostAdapter.ViewHolder holder, @SuppressLint("RecuclerView") int position) {
+    public void onBindViewHolder(@NonNull PostAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Post post = postList.get(position);
         holder.userId.setText("User ID: " + post.getUserId());
         holder.id.setText("ID Post: " + post.getId());
         holder.title.setText("Title: " + post.getTitle());
         holder.body.setText("Body: " + post.getBody());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.body.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                onClickListener.onUserClick(post,position);
             }
         });
     }
